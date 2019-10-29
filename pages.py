@@ -35,7 +35,7 @@ class Page:
         return items
 
 
-class Component:
+class Component(Page):
     def __init__(self, component):
         self.component = component
 
@@ -54,6 +54,67 @@ class Component:
     @property
     def tables(self):
         return Tables(self.component)
+
+    @property
+    def odata_services(self):
+        return ODataServices(self.component)
+
+    @property
+    def subcomponents(self):
+        return Subcomponents(self.component)
+
+
+class Subcomponents(Page):
+
+    def __init__(self, component):  # TODO: implement 'Subcomponents' page.
+        self.component = component
+
+    def overview(self):
+
+        components = []
+
+        for component in self.component.subcomponents:
+            components.append(component.wiki + [component.PS_POSID])
+
+        body = 'h1. Компоненты'
+        body += '\n\n|_.Компонент|_.Краткое описание|_.Прикладной компонент|'
+
+        self.sort(components, [2])
+        self.format(components, [0, 2])
+
+        for component in components:
+            line = '|'.join(component)
+            body += f'\n|{line}|'
+
+        sleep(0.5)
+        print(body)
+
+
+class ODataServices(Page):
+
+    def __init__(self, component):
+        self.component = component
+
+    def overview(self):
+
+        services = []
+
+        for package in tqdm(self.component.packages):
+            for service in package.directory.odata_services:
+                services.append(service.wiki)
+
+        body = 'h1. Сервисы OData'
+        body += '\n\n|_.Техническое имя|_.Описание|_.Номер приложения Fiori|'
+
+        self.sort(services, [0])
+        self.format(services, [0])
+
+        for service in services:
+            line = '|'.join(service)
+            body += f'\n|{line}||'
+
+        sleep(0.5)
+        print(body)
 
 
 class Tables(Page):
@@ -126,29 +187,43 @@ class Transactions(Page):
     def overview(self):
 
         transactions = []
+        user_transactions = []
+        cust_transactions = []
 
         for package in tqdm(self.component.packages):
             for transaction in package.directory.transactions:
                 transactions.append(transaction.wiki + [transaction.type])
 
-        self.sort(transactions, [2, 0])
-        self.format(transactions, [0, 2])
+        for transaction in transactions:
+            if transaction[2] == 'U':
+                user_transactions.append(transaction)
+            elif transaction[2] == 'C':
+                cust_transactions.append(transaction)
 
         body = 'h1. Транзакции'
         body += '\n\n{{toc}}'
-        body += '\n\nh2. Пользовательские транзакции'
-        body += '\n\n|_.Код транзакции|_.Текст|'
 
-        for transaction in transactions:
-            if 'U' in transaction[2]:
+        if user_transactions:
+
+            self.sort(user_transactions, [0])
+            self.format(user_transactions, [0])
+            body += '\n\nh2. Пользовательские транзакции'
+            body += '\n\n|_.Код транзакции|_.Текст|'
+
+            for transaction in user_transactions:
+
                 line = '|'.join(transaction[:2])
                 body += f'\n|{line}|'
 
-        body += '\n\nh2. Транзакции пользовательской настройки'
-        body += '\n\n|_.Код транзакции|_.Текст|'
+        if cust_transactions:
 
-        for transaction in transactions:
-            if 'C' in transaction[2]:
+            self.sort(cust_transactions, [0])
+            self.format(cust_transactions, [0])
+            body += '\n\nh2. Транзакции пользовательской настройки'
+            body += '\n\n|_.Код транзакции|_.Текст|'
+
+        for transaction in cust_transactions:
+
                 line = '|'.join(transaction[:2])
                 body += f'\n|{line}|'
 

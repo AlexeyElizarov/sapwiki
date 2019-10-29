@@ -74,7 +74,6 @@ class Entity:
         options = ' AND '.join(options_list)
         data, self._fields = self._sap.read_table(query_table=self._query_table, options=options,
                                                   fields=fields, rowcount=1)
-
         self.update(attribs=data[0])
 
     @property
@@ -115,6 +114,21 @@ class Component(Entity):
         packages = selections.Packages(self._sap)
         packages.get(fields=['DEVCLASS', 'COMPONENT'], component=getattr(self, 'FCTR_ID'))
         return packages
+
+    @property
+    def subcomponents(self):
+        subcomponents = []
+        query_table = 'DF14L'
+        options = f'PS_POSID LIKE "{self.PS_POSID}%"'
+        data, _ = self._sap.read_table(query_table=query_table, options=options)
+
+        if data:
+            for item in data:
+                component = Component(self._sap)
+                component.get(fctr_id=item['FCTR_ID'])
+                subcomponents.append(component)
+
+        return subcomponents
 
 
 class DataElement(Entity):
@@ -193,9 +207,12 @@ class Transaction(Entity):
 
         if not text:
             self.type = 'C'
-            activity = IMGActivity(self._sap)
-            activity.get(tcode=self.TCODE)
-            text = activity.text
+            try:
+                activity = IMGActivity(self._sap)
+                activity.get(tcode=self.TCODE)
+                text = activity.text
+            except IndexError:
+                return text
 
         return text
 
@@ -318,4 +335,13 @@ class FunctionModule(Entity):
     Function Module
     """
     _query_table = 'TFDIR'
+
+
+class ODataService(Entity):
+    """
+    OData Service
+    (R3TR	IWPR	SAP Gateway BSE - Service Builder Project)
+    """
+    _query_table = '/IWBEP/I_MGW_SRH'
+    _key_field = 'TECHNICAL_NAME'
 

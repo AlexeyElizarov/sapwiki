@@ -64,7 +64,8 @@ class Directory(Selection):
              'SMOD': entities.SAPEnhancement,
              'TABL': entities.Table,
              'TRAN': entities.Transaction,
-             'VIEW': entities.View}
+             'VIEW': entities.View,
+             'IWPR': entities.ODataService}
 
     # Attribute name to object type
     _selections = {'data_elements': 'DTEL',
@@ -80,7 +81,8 @@ class Directory(Selection):
                    'sap_enhancements': 'SMOD',
                    'tables': 'TABL',
                    'transactions': 'TRAN',
-                   'views': 'VIEW'}
+                   'views': 'VIEW',
+                   'odata_services': 'IWPR'}
 
     def __getattr__(self, attrib):
 
@@ -93,12 +95,15 @@ class Directory(Selection):
 
         for item in self._items:
             if item.OBJECT == object_type:
-                object_ = self._repo[object_type](self._sap)
-                options = {object_.key_field: item.OBJ_NAME}
-                object_.get(**options)
-                object_list.append(object_)
+                try:
+                    object_ = self._repo[object_type](self._sap)
+                    options = {object_.key_field: item.OBJ_NAME}
+                    object_.get(**options)
+                    object_list.append(object_)
+                except:
+                    pass
 
-        return  object_list
+        return object_list
 
 
 class Packages(Selection):
