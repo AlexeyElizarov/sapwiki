@@ -63,10 +63,31 @@ class Component(Page):
     def subcomponents(self):
         return Subcomponents(self.component)
 
+    def overview(self):
+        body = '\n\nh2. Особенности реализации'
+
+        components = []
+        parent_level = self.component.PS_POSID.count('-')
+        output_level = parent_level + 1
+
+        for component in self.component.subcomponents:
+            components.append(component.wiki + [component.PS_POSID])
+
+        self.sort(components, [2])
+
+        for component in components:
+            if component[2].count('-') == output_level:
+                body += f'\n\nh3. {component[1]}'
+                body += f'\n\n_Основная статья: [[{component[2]}|{component[1]}]]_.'
+                body += f'\n\nКомпонент "{component[1]}" (@{component[2]}@) обеспечивает следующие функции:'
+
+        sleep(0.5)
+        print(body)
+
 
 class Subcomponents(Page):
 
-    def __init__(self, component):  # TODO: implement 'Subcomponents' page.
+    def __init__(self, component):
         self.component = component
 
     def overview(self):
@@ -76,11 +97,11 @@ class Subcomponents(Page):
         for component in self.component.subcomponents:
             components.append(component.wiki + [component.PS_POSID])
 
-        body = 'h1. Компоненты'
-        body += '\n\n|_.Компонент|_.Краткое описание|_.Прикладной компонент|'
-
         self.sort(components, [2])
         self.format(components, [0, 2])
+
+        body = 'h1. Компоненты'
+        body += '\n\n|_.Компонент|_.Краткое описание|_.Прикладной компонент|'
 
         for component in components:
             line = '|'.join(component)
