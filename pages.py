@@ -63,6 +63,14 @@ class Component(Page):
     def subcomponents(self):
         return Subcomponents(self.component)
 
+    @property
+    def functionality(self):
+        return Functionality(self.component)
+
+    @property
+    def user_manuals(self):
+        return UserManuals(self.component)
+
     def overview(self):
         body = f'h1. {self.component.text}'
         body += '\n\nh2. Особенности реализации'
@@ -81,6 +89,59 @@ class Component(Page):
                 body += f'\n\nh3. {component[1]}'
                 body += f'\n\n_Основная статья: [[{component[2]}|{component[1]}]]_.'
                 body += f'\n\nПрикладой компонент "{component[1]}" (@{component[2]}@) обеспечивает следующие функции:'
+
+        sleep(0.5)
+        print(body)
+
+
+class UserManuals(Page):
+    def __init__(self, component):
+        self.component = component
+
+    def overview(self):
+
+        services = []
+
+        for package in tqdm(self.component.packages):
+            for service in package.directory.odata_services:
+                services.append(service.wiki)
+
+        self.sort(services, [0])
+
+        body = 'h1. Руководства пользователя'
+        body += '\n'
+
+        for service in services:
+            body += f'\n* [[UMD_{service[0]}|{service[1]}]]'
+
+        sleep(0.5)
+        print(body)
+
+
+class Functionality(Page):
+    def __init__(self, component):
+        self.component = component
+
+    def overview(self):
+
+        services = []
+
+        for package in tqdm(self.component.packages):
+            for service in package.directory.odata_services:
+                services.append(service.wiki)
+
+        self.sort(services, [0])
+
+        body = 'h1. Функции'
+        body += '\n\n{{toc}}'
+
+        for service in services:
+            body += f'\n\nh2. {service[1]}'
+            body += '\n\n*Использование*'
+            body += '\n\n*Основные функции*'
+            body += '\n\n*Техническая информация*'
+            body += f'\n\n|_.Сервис OData|@{service[0]}@|'
+            body += f'\n|_.Номер приложения Fiori||'
 
         sleep(0.5)
         print(body)

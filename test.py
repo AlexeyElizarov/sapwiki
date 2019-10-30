@@ -141,7 +141,8 @@ def test_wiki_tables():
     # component.get(ps_posid='CA-GTF-OC')
     # component.get(ps_posid='MM-IV')
     # component.get(ps_posid='SLL-ITR-TRC')
-    component.get(ps_posid='OPU-FND-CS')
+    # component.get(ps_posid='OPU-FND-CS')
+    component.get(ps_posid='SLL-ITR-CLS')
     page = pages.Component(component)
     page.tables.overview()
 
@@ -184,6 +185,22 @@ def test_wiki_component():
     page.overview()
 
 
+def test_wiki_functionality():
+    component = entities.Component(sap)
+    component.get(ps_posid='SLL-ITR-CLS')
+    # component.get(ps_posid='OPU-BSE')
+    page = pages.Component(component)
+    page.functionality.overview()
+
+
+def test_wiki_user_manuals():
+    component = entities.Component(sap)
+    component.get(ps_posid='SLL-ITR-CLS')
+    # component.get(ps_posid='OPU-BSE')
+    page = pages.Component(component)
+    page.user_manuals.overview()
+
+
 if __name__ == '__main__':
     # test_connection()
     # test_component()
@@ -204,5 +221,7 @@ if __name__ == '__main__':
     # test_wiki_odata_service()
     # test_subcomponents()
     # test_wiki_subcomponents()
-    test_wiki_component()
+    # test_wiki_component()
+    # test_wiki_functionality()
+    test_wiki_user_manuals()
 
