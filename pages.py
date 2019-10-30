@@ -64,7 +64,8 @@ class Component(Page):
         return Subcomponents(self.component)
 
     def overview(self):
-        body = '\n\nh2. Особенности реализации'
+        body = f'h1. {self.component.text}'
+        body += '\n\nh2. Особенности реализации'
 
         components = []
         parent_level = self.component.PS_POSID.count('-')
@@ -79,7 +80,7 @@ class Component(Page):
             if component[2].count('-') == output_level:
                 body += f'\n\nh3. {component[1]}'
                 body += f'\n\n_Основная статья: [[{component[2]}|{component[1]}]]_.'
-                body += f'\n\nКомпонент "{component[1]}" (@{component[2]}@) обеспечивает следующие функции:'
+                body += f'\n\nПрикладой компонент "{component[1]}" (@{component[2]}@) обеспечивает следующие функции:'
 
         sleep(0.5)
         print(body)

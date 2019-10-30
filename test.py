@@ -3,7 +3,7 @@ import selections
 import entities
 import pages
 
-profile = r"D:\PyProjects\pySAP\profiles\plaut_demo.ini"
+profile = r"C:\Users\Alexey\Desktop\plaut_demo.ini"
 # profile = r"D:\PyProjects\pySAP\profiles\haier_dev.ini"
 sap = SAP(profile)
 
@@ -106,7 +106,8 @@ def test_function_group():
 
 def test_wiki_functions():
     component = entities.Component(sap)
-    component.get(ps_posid='CA-LT')
+    # component.get(ps_posid='CA-LT')
+    component.get(ps_posid='CA-UI2-INT-BE')
     page = pages.Component(component)
     page.functions.overview()
 
@@ -114,8 +115,12 @@ def test_wiki_functions():
 def test_wiki_transactions():
     component = entities.Component(sap)
     # component.get(ps_posid='CA-LT')
-    component.get(ps_posid='CA-GTF-OC')
+    # component.get(ps_posid='CA-GTF-OC')
     # component.get(ps_posid='MM-IV')
+    # component.get(ps_posid='OPU-GW-COR')
+    # component.get(ps_posid='OPU-FND-CS')
+    component.get(ps_posid='OPU-BSE-TLS')
+    component.get(ps_posid='CA-UI2-INT-BE')
     page = pages.Component(component)
     page.transactions.overview()
 
@@ -128,6 +133,55 @@ def test_transactions():
         print(pckg.name)
         for transaction in pckg.directory.transactions:
             print('\t', transaction.name)
+
+
+def test_wiki_tables():
+    component = entities.Component(sap)
+    # component.get(ps_posid='CA-LT')
+    # component.get(ps_posid='CA-GTF-OC')
+    # component.get(ps_posid='MM-IV')
+    # component.get(ps_posid='SLL-ITR-TRC')
+    component.get(ps_posid='OPU-FND-CS')
+    page = pages.Component(component)
+    page.tables.overview()
+
+
+def test_odata_service():
+    odata = entities.ODataService(sap)
+    odata.get(technical_name='SLL_PROD_CMDTYCD_CLASSIFY')
+    print(odata.wiki)
+
+
+def test_wiki_odata_service():
+    component = entities.Component(sap)
+    # component.get(ps_posid='SLL-ITR-TRC')
+    component.get(ps_posid='SLL-ITR-CLS')
+    # component.get(ps_posid='MM-IV')
+    page = pages.Component(component)
+    page.odata_services.overview()
+
+
+def test_subcomponents():
+    component = entities.Component(sap)
+    component.get(ps_posid='SLL-ITR')
+
+    for component in component.subcomponents:
+        print(component.wiki)
+
+
+def test_wiki_subcomponents():
+    component = entities.Component(sap)
+    component.get(ps_posid='SLL-ITR')
+    page = pages.Component(component)
+    page.subcomponents.overview()
+
+
+def test_wiki_component():
+    component = entities.Component(sap)
+    # component.get(ps_posid='SLL-ITR')
+    component.get(ps_posid='OPU-BSE')
+    page = pages.Component(component)
+    page.overview()
 
 
 if __name__ == '__main__':
@@ -143,8 +197,12 @@ if __name__ == '__main__':
     # test_wiki_auth()
     # test_function_group()
     # test_wiki_functions()
-    test_wiki_transactions()
+    # test_wiki_transactions()
     # test_transactions()
-
-
+    # test_wiki_tables()
+    # test_odata_service()
+    # test_wiki_odata_service()
+    # test_subcomponents()
+    # test_wiki_subcomponents()
+    test_wiki_component()
 
