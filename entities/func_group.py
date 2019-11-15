@@ -1,5 +1,4 @@
-from entities.entity import Entity
-from entities.func_module import FunctionModule
+from entities import Entity, FunctionModule
 
 
 class FunctionGroup(Entity):

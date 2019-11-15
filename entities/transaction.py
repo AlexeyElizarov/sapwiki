@@ -1,5 +1,4 @@
-from entities.entity import Entity
-from entities.img_activity import IMGActivity
+from entities import Entity, IMGActivity
 
 
 class Transaction(Entity):

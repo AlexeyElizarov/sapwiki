@@ -1,5 +1,4 @@
-from entities.entity import Entity
-from entities.data_element import DataElement
+from entities import Entity, DataElement
 
 
 class AuthCheckField(Entity):

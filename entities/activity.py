@@ -1,4 +1,4 @@
-from entities.entity import Entity
+from entities import Entity
 
 
 class Activity(Entity):
