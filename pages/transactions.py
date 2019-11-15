@@ -9,6 +9,9 @@ class Transactions(Page):
 
     def overview(self):
 
+        self.resource_id = f'{self.component.PS_POSID}_TRAN'
+        self.title = f'{self.component.PS_POSID}_TRAN'
+
         transactions = []
         user_transactions = []
         cust_transactions = []
@@ -51,4 +54,4 @@ class Transactions(Page):
                 body += f'\n|{line}|'
 
         sleep(0.5)
-        print(body)
+        self.text = body

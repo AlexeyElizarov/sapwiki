@@ -1,4 +1,5 @@
 from time import sleep
+from tqdm import tqdm
 from pages import Page, Authorizations, Functions, Transactions, Tables, ODataServices, Subcomponents, Functionality,\
     UserManuals
 
@@ -60,3 +61,78 @@ class Component(Page):
 
         sleep(0.5)
         print(body)
+
+    def describe(self):
+
+        self.resource_id = self.component.PS_POSID
+        self.title = self.component.PS_POSID
+        self.text = f'h1. {self.component.text}'
+        self.text += '\n\nh2. Особенности реализации'
+        self.text += '\n\nh3. Проектирование'
+
+        if self.component.has_subcomponents:
+            self.text += '\n\n* Компоненты'
+
+        if self.component.has_transactions or self.component.has_odata_services:
+            self.text += '\n* Функции'
+
+        self.text += '\n\nh3. Реализация'
+
+        if self.component.has_customizing:
+            self.text += '\n\n * Пользовательская настройка'
+
+        self.text += '\n\nh2. Примечания'
+        self.text += '\n\nh3. Списки'
+
+        if self.component.has_functions:
+            self.text += f'\n\n* [[{self.component.PS_POSID}_FUGR|Группы функций и функциональные модули]]'
+            self.chapters.append(self.functions)
+
+        if self.component.has_tables:
+            self.text += f'\n* [[{self.component.PS_POSID}_TABL|Таблицы и структуры]]'
+            self.chapters.append(self.tables)
+
+        if self.component.has_transactions:
+            self.text += f'\n* [[{self.component.PS_POSID}_TRAN|Транзакции]]'
+            self.chapters.append(self.transactions)
+
+
+
+
+
+
+
+
+
+
+
+        # body += '\n\nh3. Проектирование'
+        # body += '\n\n* Основные понятия'
+        # body += '\n\n* Компоненты'
+        # body += '\n\n* Функции'
+        # body += '\n\nh2. Примечания'
+
+
+    def directory(self):
+
+        body = f'* *[[{self.component.PS_POSID}|{self.component.text}]]*: '
+
+        components = []
+        directory = []
+        parent_level = self.component.PS_POSID.count('-')
+        output_level = parent_level + 1
+
+        for component in self.component.subcomponents:
+            components.append(component)
+
+        for component in components:
+            if component.PS_POSID.count('-') == output_level:
+                directory.append(f'[[{component.PS_POSID}|{component.text}]]')
+
+        directory.sort()
+
+        body += ' — '.join(directory)
+
+        sleep(0.5)
+        print(body)
+

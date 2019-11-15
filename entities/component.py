@@ -42,3 +42,53 @@ class Component(Entity):
 
         return subcomponents
 
+    @property
+    def has_transactions(self):
+        for package in self.packages:
+            if package.transactions:
+                return True
+            else:
+                continue
+        return False
+
+    @property
+    def has_odata_services(self):
+        for package in self.packages:
+            if package.odata_services:
+                return True
+            else:
+                continue
+        return False
+
+    @property
+    def has_subcomponents(self):
+        if self.subcomponents:
+            return True
+        return False
+
+    @property
+    def has_customizing(self):
+        for package in self.packages:
+            if package.img_activities:
+                return True
+            else:
+                continue
+        return False
+
+    @property
+    def has_functions(self):
+        for package in self.packages:
+            if package.function_groups:
+                return True
+            else:
+                continue
+        return False
+
+    @property
+    def has_tables(self):
+        for package in self.packages:
+            if package.tables:
+                return True
+            else:
+                continue
+        return False

@@ -10,6 +10,9 @@ class Tables(Page):
 
     def overview(self):
 
+        self.resource_id = f'{self.component.PS_POSID}_TABL'
+        self.title = f'{self.component.PS_POSID}_TABL'
+
         tables = []
         tables_by_delclass = defaultdict(list)
         delivery_classes = ['A', 'C', 'E', 'G', 'L', 'S', 'W']
@@ -32,7 +35,7 @@ class Tables(Page):
             else:
                 tables_by_delclass[table[3]].append(table)
 
-        body = 'h1. Таблицы и структуры'
+        body = f'h1. Таблицы и структуры'
         body += '\n\n{{toc}}'
 
         for delivery_class in delivery_classes:
@@ -64,4 +67,4 @@ class Tables(Page):
                 '\n# {{include(PWS_Классы_поставки)}}'
 
         sleep(0.5)
-        print(body)
+        self.text = body

@@ -65,7 +65,7 @@ class Package(Entity):
                     object_.get(**options)
                     object_list.append(object_)
                 except Exception as e:
-                    print(e)
+                    pass
 
         return object_list
 

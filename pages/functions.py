@@ -10,6 +10,9 @@ class Functions(Page):
 
     def overview(self):
 
+        self.resource_id = f'{self.component.PS_POSID}_FUGR'
+        self.title = f'{self.component.PS_POSID}_FUGR'
+
         func_groups = []
         func_modules = []
 
@@ -41,4 +44,4 @@ class Functions(Page):
             body += f'\n|{line}|'
 
         sleep(0.5)
-        print(body)
+        self.text = body
