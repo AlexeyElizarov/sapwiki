@@ -1,5 +1,4 @@
-from entities.entity import Entity
-from entities.package import Package
+from entities import Entity
 
 
 class Component(Entity):
@@ -12,6 +11,9 @@ class Component(Entity):
 
     @property
     def packages(self):
+
+        from entities import Package
+
         packages = []
         query_table = 'TDEVC'
         options = f'COMPONENT = "{self.name}"'
@@ -39,3 +41,4 @@ class Component(Entity):
                 subcomponents.append(component)
 
         return subcomponents
+

@@ -1,0 +1,12 @@
+TODO: Reorganize entities - each entity as a separate script.
+      RepObj needs to be an entity?
+      ValidActivitry needs to be an entity?
+
+TODO: Refactor pages
+TODO: Refactor selections - make it as a method of Entity class.
+TODO: Reorganize tests - make it unavailable in GIT
+TODO: Add Enterprise Structure entities
+
+What is Entity:
+- has text table.
+- listed in TADIR.

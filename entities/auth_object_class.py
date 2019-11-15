@@ -1,5 +1,4 @@
-from entities.entity import Entity
-from entities.auth_object import AuthObject
+from entities import Entity, AuthObject
 
 
 class AuthObjectClass(Entity):
