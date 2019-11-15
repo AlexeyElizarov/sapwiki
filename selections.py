@@ -34,7 +34,7 @@ class Selection:
             options_list.append(f'{key.upper()} = "{value}"')
 
         options = ' AND '.join(options_list)
-        data, _ = self._sap.read_table(query_table=self._query_table, options=options, fields=fields)
+        # data, _ = self.read_table(query_table=self._query_table, options=options, fields=fields)
 
         for item in data:
             _item = self._item(sap=self._sap)
