@@ -92,3 +92,12 @@ class Component(Entity):
             else:
                 continue
         return False
+
+    @property
+    def has_authorizations(self):
+        for package in self.packages:
+            if package.auth_object_classes:
+                return True
+            else:
+                continue
+        return False

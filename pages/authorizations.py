@@ -10,6 +10,9 @@ class Authorizations(Page):
 
     def overview(self):
 
+        self.resource_id = f'{self.component.PS_POSID}_Полномочия'
+        self.title = f'{self.component.PS_POSID}_Полномочия'
+
         auth_obj_classes = []
         auth_objs = []
         check_fields = []
@@ -67,4 +70,4 @@ class Authorizations(Page):
             body += f'\n|{line}|'
 
         sleep(0.5)
-        print(body)
+        self.text = body

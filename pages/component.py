@@ -76,6 +76,12 @@ class Component(Page):
         if self.component.has_transactions or self.component.has_odata_services:
             self.text += '\n* Функции'
 
+        self.text += '\n\nh2. Подготовка к промышленной эксплуатации'
+
+        if self.component.has_authorizations:
+            self.text += f'\n\n* [[{self.component.PS_POSID}_Полномочия|Полномочия]]'
+            self.chapters.append(self.authorizations)
+
         self.text += '\n\nh3. Реализация'
 
         if self.component.has_customizing:
