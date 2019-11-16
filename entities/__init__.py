@@ -16,4 +16,6 @@ from entities.sap_enhancement import SAPEnhancement
 from entities.table import Table
 from entities.transaction import Transaction
 from entities.view import View
+from entities.idoc import IDoc
 from entities.package import Package
+
