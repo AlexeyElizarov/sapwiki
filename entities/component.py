@@ -95,7 +95,7 @@ class Component(Entity):
         return False
 
     @property
-    def functions(self):
+    def function_groups(self):
         funcs = []
 
         for package in self.packages:
