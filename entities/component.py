@@ -114,6 +114,17 @@ class Component(Entity):
         return False
 
     @property
+    def tables(self):
+        tables = []
+
+        for package in self.packages:
+            for table in package.tables:
+                tables.append(table)
+
+        return tables
+
+
+    @property
     def has_tables(self):
         for package in self.packages:
             if package.tables:

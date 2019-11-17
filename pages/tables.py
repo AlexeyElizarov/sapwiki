@@ -25,9 +25,8 @@ class Tables(Page):
                      'S': 'Системные таблицы (S)',
                      'W': 'Системные таблицы (W)'}
 
-        for package in tqdm(self.component.packages):
-            for table in package.tables:
-                tables.append(table.wiki + [table.TABCLASS, table.CONTFLAG])
+        for table in tqdm(self.component.tables, desc='Tables'):
+            tables.append(table.wiki + [table.TABCLASS, table.CONTFLAG])
 
         for table in tables:
             if table[2] == 'INTTAB':
