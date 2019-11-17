@@ -103,11 +103,11 @@ class Component(Page):
 
         if self.component.has_tables:
             self.text += f'\n* [[{self.component.PS_POSID}_TABL|Таблицы и структуры]]'
-            self.chapters.append(self.tables)
+            # self.chapters.append(self.tables)
 
         if self.component.has_transactions:
             self.text += f'\n* [[{self.component.PS_POSID}_TRAN|Транзакции]]'
-            # self.chapters.append(self.transactions)
+            self.chapters.append(self.transactions)
 
 
 

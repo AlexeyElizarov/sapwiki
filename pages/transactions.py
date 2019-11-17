@@ -16,9 +16,8 @@ class Transactions(Page):
         user_transactions = []
         cust_transactions = []
 
-        for package in tqdm(self.component.packages):
-            for transaction in package.transactions:
-                transactions.append(transaction.wiki + [transaction.type])
+        for transaction in tqdm(self.component.transactions, desc='Transactions'):
+            transactions.append(transaction.wiki + [transaction.type])
 
         for transaction in transactions:
             if transaction[2] == 'U':

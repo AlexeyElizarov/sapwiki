@@ -62,6 +62,16 @@ class Component(Entity):
         return False
 
     @property
+    def transactions(self):
+        transactions = []
+
+        for package in self.packages:
+            for transaction in package.transactions:
+                transactions.append(transaction)
+
+        return transactions
+
+    @property
     def has_transactions(self):
         for package in self.packages:
             if package.transactions:
