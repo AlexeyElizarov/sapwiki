@@ -43,6 +43,25 @@ class Component(Entity):
         return subcomponents
 
     @property
+    def idocs(self):
+        idocs = []
+
+        for package in self.packages:
+            for idoc in package.idocs:
+                idocs.append(idoc)
+
+        return idocs
+
+    @property
+    def has_idocs(self):
+        for package in self.packages:
+            if package.idocs:
+                return True
+            else:
+                continue
+        return False
+
+    @property
     def has_transactions(self):
         for package in self.packages:
             if package.transactions:
@@ -74,6 +93,16 @@ class Component(Entity):
             else:
                 continue
         return False
+
+    @property
+    def functions(self):
+        funcs = []
+
+        for package in self.packages:
+            for funcgr in package.function_groups:
+                funcs.append(funcgr)
+
+        return funcs
 
     @property
     def has_functions(self):

@@ -1,12 +1,15 @@
 from time import sleep
-from tqdm import tqdm
 from pages import Page, Authorizations, Functions, Transactions, Tables, ODataServices, Subcomponents, Functionality,\
-    UserManuals
+    UserManuals, IDocs
 
 
 class Component(Page):
     def __init__(self, component):
         self.component = component
+
+    @property
+    def idocs(self):
+        return IDocs(self.component)
 
     @property
     def authorizations(self):
@@ -90,8 +93,12 @@ class Component(Page):
         self.text += '\n\nh2. Примечания'
         self.text += '\n\nh3. Списки'
 
+        if self.component.has_idocs:
+            self.text += f'\n\n* [[{self.component.PS_POSID}_IDOC|Базисные типы IDoc]]'
+            self.chapters.append(self.idocs)
+
         if self.component.has_functions:
-            self.text += f'\n\n* [[{self.component.PS_POSID}_FUGR|Группы функций и функциональные модули]]'
+            self.text += f'\n* [[{self.component.PS_POSID}_FUGR|Группы функций и функциональные модули]]'
             self.chapters.append(self.functions)
 
         if self.component.has_tables:

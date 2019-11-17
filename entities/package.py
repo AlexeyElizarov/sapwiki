@@ -1,5 +1,5 @@
 from entities import Entity, DataElement, AuthCheckField, AuthObjectClass, AuthObject, BAdI, Class,\
-    Component, EnhancementSpot, FunctionGroup, IMGActivity, SAPEnhancement, Table, Transaction, View, ODataService
+    Component, EnhancementSpot, FunctionGroup, IMGActivity, SAPEnhancement, Table, Transaction, View, ODataService, IDoc
 
 
 class Package(Entity):
@@ -23,7 +23,8 @@ class Package(Entity):
              'TABL': Table,
              'TRAN': Transaction,
              'VIEW': View,
-             'IWPR': ODataService}
+             'IWPR': ODataService,
+             'IDOC': IDoc}
 
     # Attribute name to object type
     _selections = {'data_elements': 'DTEL',
@@ -40,7 +41,8 @@ class Package(Entity):
                    'tables': 'TABL',
                    'transactions': 'TRAN',
                    'views': 'VIEW',
-                   'odata_services': 'IWPR'}
+                   'odata_services': 'IWPR',
+                   'idocs': 'IDOC'}
 
     def _directory(self):
         query_table = 'TADIR'
