@@ -96,6 +96,17 @@ class Component(Entity):
         return False
 
     @property
+    def customizing(self):
+        cust = []
+
+        for package in self.packages:
+            for actv in package.img_activities:
+                cust.append(actv)
+
+        return cust
+
+
+    @property
     def has_customizing(self):
         for package in self.packages:
             if package.img_activities:

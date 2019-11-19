@@ -8,6 +8,7 @@ from pages.odata_services import ODataServices
 from pages.subcomponents import Subcomponents
 from pages.functionality import Functionality
 from pages.user_manuals import UserManuals
+from pages.customizing import Customizing
 from pages.component import Component
 
 

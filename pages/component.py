@@ -1,11 +1,15 @@
 from time import sleep
 from pages import Page, Authorizations, Functions, Transactions, Tables, ODataServices, Subcomponents, Functionality,\
-    UserManuals, IDocs
+    UserManuals, IDocs, Customizing
 
 
 class Component(Page):
     def __init__(self, component):
         self.component = component
+
+    @property
+    def customizing(self):
+        return Customizing(self.component)
 
     @property
     def idocs(self):
@@ -88,7 +92,8 @@ class Component(Page):
         self.text += '\n\nh3. Реализация'
 
         if self.component.has_customizing:
-            self.text += '\n\n * Пользовательская настройка'
+            self.text += f'\n\n * [[{self.component.PS_POSID}_Пользовательская настройка|Пользовательская настройка]]'
+            self.chapters.append(self.customizing)
 
         self.text += '\n\nh2. Примечания'
         self.text += '\n\nh3. Списки'
@@ -107,24 +112,7 @@ class Component(Page):
 
         if self.component.has_transactions:
             self.text += f'\n* [[{self.component.PS_POSID}_TRAN|Транзакции]]'
-            self.chapters.append(self.transactions)
-
-
-
-
-
-
-
-
-
-
-
-        # body += '\n\nh3. Проектирование'
-        # body += '\n\n* Основные понятия'
-        # body += '\n\n* Компоненты'
-        # body += '\n\n* Функции'
-        # body += '\n\nh2. Примечания'
-
+            # self.chapters.append(self.transactions)
 
     def directory(self):
 
