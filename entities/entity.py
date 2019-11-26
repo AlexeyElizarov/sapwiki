@@ -24,7 +24,7 @@ class Entity:
         """
         self._connection = connection
 
-    def __getattr__(self, attr, value):
+    def __getattr__(self, attr, value=None):
         setattr(self, attr, value)
 
     def _read_table(self, query_table: str,
@@ -156,7 +156,8 @@ class Entity:
         options = ' AND '.join(options_list)
         data, self._fields = self._read_table(query_table=self._query_table, options=options,
                                               fields=fields, rowcount=1)
-        self.update(attribs=data[0])
+        if data:
+            self.update(attribs=data[0])
 
     @property
     def wiki(self):
