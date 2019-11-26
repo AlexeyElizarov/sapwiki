@@ -44,7 +44,7 @@ class IMGNode(Entity):
 
         return node
 
-    def _get_reference_node(self, node_id):
+    def _get_reference_node(self, node_id, tree_id):
         """
         Returns reference node from the IMG table reference by reference node id.
         :param node_id: node id
@@ -52,7 +52,15 @@ class IMGNode(Entity):
         """
 
         node = IMGNode(self._connection)
-        node.get(fields=['TREE_ID', 'EXTENSION', 'NODE_ID', 'EXT_KEY', 'NODE_TYPE', 'PARENT_ID'], refnode_id=node_id)
+
+        # First try to get reference node by reference tree id without reference node id.
+        node.get(fields=['TREE_ID', 'EXTENSION', 'NODE_ID', 'EXT_KEY', 'NODE_TYPE', 'PARENT_ID'],
+                 refnode_id='', reftree_id=tree_id)
+
+        # If nothing selected, then get reference node by reference node id and tree id.
+        if not node.name:
+            node.get(fields=['TREE_ID', 'EXTENSION', 'NODE_ID', 'EXT_KEY', 'NODE_TYPE', 'PARENT_ID'],
+                     refnode_id=node_id, reftree_id=tree_id)
 
         return node
 
@@ -80,10 +88,10 @@ class IMGNode(Entity):
             if parent.PARENT_ID:
                 node = parent
             else:
-                parent = self._get_reference_node(parent.NODE_ID)
+                parent = self._get_reference_node(parent.NODE_ID, parent.TREE_ID)
                 if parent.PARENT_ID:
                     node = parent
                 else:
                     break
 
-        return ' -> '.join([node.text for node in img_nodes])
+        return ' → '.join([node.text for node in img_nodes])

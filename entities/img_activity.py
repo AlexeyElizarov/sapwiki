@@ -20,7 +20,9 @@ class IMGActivity(Entity):
                 node = IMGNode(self._connection)
                 node.get(fields=['TREE_ID', 'EXTENSION', 'NODE_ID', 'EXT_KEY', 'NODE_TYPE', 'PARENT_ID'],
                          node_id=item['NODE_ID'])
-                nodes.append(node)
+
+                if node.name:
+                    nodes.append(node)
 
         return nodes
 

@@ -47,8 +47,24 @@ class Entity:
         :return: tuple of data and fields
         """
 
-        _options = [{'TEXT': options.replace('\"', '\'')}]
+        # Process options.
+        options = options.replace('\"', '\'')
+        _options = []
 
+        if len(options) > 72:
+            options_list = options.split('AND')
+
+            for i in range(len(options_list)):
+                option = options_list[i]
+
+                if i > 0:
+                    option = f'AND {option}'
+
+                _options.append({'TEXT': option})
+        else:
+            _options = [{'TEXT': options}]
+
+        # Process fields
         if fields is None:
             _fields = []
         else:
