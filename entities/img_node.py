@@ -104,6 +104,6 @@ class IMGNode(Entity):
             return None
 
         path = ' → '.join([node.text for node in img_nodes])
-        path = ' → '.join([node.name + ' ' + node.text + '\n' for node in img_nodes])
+        # path = ' → '.join([node.name + ' ' + node.text + '\n' for node in img_nodes])
 
         return path
