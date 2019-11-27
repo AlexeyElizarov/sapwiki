@@ -92,19 +92,19 @@ class Component(Page):
         self.text += '\n\nh3. Реализация'
 
         if self.component.has_customizing:
-            self.text += f'\n\n * [[{self.component.PS_POSID}_Пользовательская настройка|Пользовательская настройка]]'
-            self.chapters.append(self.customizing)
+            self.text += f'\n\n* [[{self.component.PS_POSID}_Пользовательская настройка|Пользовательская настройка]]'
+            # self.chapters.append(self.customizing)
 
         self.text += '\n\nh2. Примечания'
-        self.text += '\n\nh3. Списки'
+        self.text += '\n\nh3. Списки\n'
 
         if self.component.has_idocs:
-            self.text += f'\n\n* [[{self.component.PS_POSID}_IDOC|Базисные типы IDoc]]'
-            # self.chapters.append(self.idocs)
+            self.text += f'\n* [[{self.component.PS_POSID}_IDOC|Базисные типы IDoc]]'
+            self.chapters.append(self.idocs)
 
         if self.component.has_functions:
             self.text += f'\n* [[{self.component.PS_POSID}_FUGR|Группы функций и функциональные модули]]'
-            # self.chapters.append(self.functions)
+            self.chapters.append(self.functions)
 
         if self.component.has_tables:
             self.text += f'\n* [[{self.component.PS_POSID}_TABL|Таблицы и структуры]]'

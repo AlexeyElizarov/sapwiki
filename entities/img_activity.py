@@ -30,7 +30,10 @@ class IMGActivity(Entity):
         paths = []
 
         for node in self.reference_nodes:
-            paths.append(node.img_path)
+            path = node.img_path
+
+            if path:
+                paths.append(path)
 
         return paths
 

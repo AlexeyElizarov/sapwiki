@@ -83,15 +83,27 @@ class IMGNode(Entity):
 
             # Get parent node by PARENT_ID
             parent = self._get_parent_node(node.PARENT_ID)
-            img_nodes.insert(0, parent)
 
             if parent.PARENT_ID:
+                img_nodes.insert(0, parent)
                 node = parent
             else:
                 parent = self._get_reference_node(parent.NODE_ID, parent.TREE_ID)
                 if parent.PARENT_ID:
+                    img_nodes.insert(0, parent)
                     node = parent
                 else:
+                    parent = self._get_parent_node(node.PARENT_ID)
+                    root = parent
+                    img_nodes.insert(0, parent)
                     break
 
-        return ' → '.join([node.text for node in img_nodes])
+        # Check if root is New SAP IMG.
+        # If it not, return None.
+        if root.NODE_ID != '368DDFAC3AB96CCFE10000009B38F976':
+            return None
+
+        path = ' → '.join([node.text for node in img_nodes])
+        path = ' → '.join([node.name + ' ' + node.text + '\n' for node in img_nodes])
+
+        return path
