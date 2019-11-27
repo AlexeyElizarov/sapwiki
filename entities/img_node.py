@@ -44,7 +44,7 @@ class IMGNode(Entity):
 
         return node
 
-    def _get_reference_node(self, node_id, tree_id):
+    def _get_reference_node(self, node_id, tree_id, extension):
         """
         Returns reference node from the IMG table reference by reference node id.
         :param node_id: node id
@@ -55,12 +55,12 @@ class IMGNode(Entity):
 
         # First try to get reference node by reference tree id without reference node id.
         node.get(fields=['TREE_ID', 'EXTENSION', 'NODE_ID', 'EXT_KEY', 'NODE_TYPE', 'PARENT_ID'],
-                 refnode_id='', reftree_id=tree_id)
+                 refnode_id='', reftree_id=tree_id, extension=extension)
 
         # If nothing selected, then get reference node by reference node id and tree id.
         if not node.name:
             node.get(fields=['TREE_ID', 'EXTENSION', 'NODE_ID', 'EXT_KEY', 'NODE_TYPE', 'PARENT_ID'],
-                     refnode_id=node_id, reftree_id=tree_id)
+                     refnode_id=node_id, reftree_id=tree_id, extension=extension)
 
         return node
 
@@ -88,7 +88,7 @@ class IMGNode(Entity):
                 img_nodes.insert(0, parent)
                 node = parent
             else:
-                parent = self._get_reference_node(parent.NODE_ID, parent.TREE_ID)
+                parent = self._get_reference_node(parent.NODE_ID, parent.TREE_ID, parent.EXTENSION)
                 if parent.PARENT_ID:
                     img_nodes.insert(0, parent)
                     node = parent
@@ -103,7 +103,7 @@ class IMGNode(Entity):
         if root.NODE_ID != '368DDFAC3AB96CCFE10000009B38F976':
             return None
 
-        path = ' → '.join([node.text for node in img_nodes])
-        # path = ' → '.join([node.name + ' ' + node.text + '\n' for node in img_nodes])
+        # path = ' → '.join([node.text for node in img_nodes])
+        path = ' → '.join([node.name + ' ' + node.text + '\n' for node in img_nodes])
 
         return path
