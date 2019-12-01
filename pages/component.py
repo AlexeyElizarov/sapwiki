@@ -93,7 +93,7 @@ class Component(Page):
 
         if self.component.has_customizing:
             self.text += f'\n\n* [[{self.component.PS_POSID}_Пользовательская настройка|Пользовательская настройка]]'
-            # self.chapters.append(self.customizing)
+            self.chapters.append(self.customizing)
 
         self.text += '\n\nh2. Примечания'
         self.text += '\n\nh3. Списки\n'
@@ -108,11 +108,11 @@ class Component(Page):
 
         if self.component.has_tables:
             self.text += f'\n* [[{self.component.PS_POSID}_TABL|Таблицы и структуры]]'
-            # self.chapters.append(self.tables)
+            self.chapters.append(self.tables)
 
         if self.component.has_transactions:
             self.text += f'\n* [[{self.component.PS_POSID}_TRAN|Транзакции]]'
-            # self.chapters.append(self.transactions)
+            self.chapters.append(self.transactions)
 
     def directory(self):
 

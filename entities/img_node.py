@@ -40,7 +40,7 @@ class IMGNode(Entity):
         """
 
         node = IMGNode(self._connection)
-        node.get(fields=['TREE_ID', 'EXTENSION', 'NODE_ID', 'EXT_KEY', 'NODE_TYPE', 'PARENT_ID'], node_id=node_id)
+        node.get(fields=['TREE_ID', 'EXTENSION', 'NODE_ID', 'EXT_KEY', 'NODE_TYPE', 'PARENT_ID', 'REFNODE_ID'], node_id=node_id)
 
         return node
 
@@ -53,14 +53,20 @@ class IMGNode(Entity):
 
         node = IMGNode(self._connection)
 
-        # First try to get reference node by reference tree id without reference node id.
-        node.get(fields=['TREE_ID', 'EXTENSION', 'NODE_ID', 'EXT_KEY', 'NODE_TYPE', 'PARENT_ID'],
+        node.get(fields=['TREE_ID', 'EXTENSION', 'NODE_ID', 'EXT_KEY', 'NODE_TYPE', 'PARENT_ID', 'REFNODE_ID'],
                  refnode_id='', reftree_id=tree_id, extension=extension)
 
-        # If nothing selected, then get reference node by reference node id and tree id.
         if not node.name:
-            node.get(fields=['TREE_ID', 'EXTENSION', 'NODE_ID', 'EXT_KEY', 'NODE_TYPE', 'PARENT_ID'],
+            node.get(fields=['TREE_ID', 'EXTENSION', 'NODE_ID', 'EXT_KEY', 'NODE_TYPE', 'PARENT_ID', 'REFNODE_ID'],
                      refnode_id=node_id, reftree_id=tree_id, extension=extension)
+
+        if not node.name:
+            node.get(fields=['TREE_ID', 'EXTENSION', 'NODE_ID', 'EXT_KEY', 'NODE_TYPE', 'PARENT_ID', 'REFNODE_ID'],
+                     refnode_id='', reftree_id=tree_id)
+
+        if not node.name:
+            node.get(fields=['TREE_ID', 'EXTENSION', 'NODE_ID', 'EXT_KEY', 'NODE_TYPE', 'PARENT_ID', 'REFNODE_ID'],
+                     refnode_id=node_id, reftree_id=tree_id)
 
         return node
 
@@ -75,35 +81,40 @@ class IMGNode(Entity):
         node = self
 
         # IMG Nodes
-        img_nodes = [node]
+        # img_nodes = [node]
+        img_nodes = []
 
-        while True:
+        while node.name:
             # Loop is running while parent id can be identified.
             # If it cannot then it means that the root has been reached and loop must be stopped.
 
-            # Get parent node by PARENT_ID
-            parent = self._get_parent_node(node.PARENT_ID)
+            # print(node.NODE_ID, node.NODE_TYPE, node.text)
 
-            if parent.PARENT_ID:
-                img_nodes.insert(0, parent)
-                node = parent
-            else:
-                parent = self._get_reference_node(parent.NODE_ID, parent.TREE_ID, parent.EXTENSION)
-                if parent.PARENT_ID:
-                    img_nodes.insert(0, parent)
-                    node = parent
+            if node.NODE_TYPE == 'IMG':
+                img_nodes.insert(0, node)
+                node = self._get_parent_node(node.PARENT_ID)
+            elif node.NODE_TYPE == 'IMG0':
+                if node.PARENT_ID:
+                    img_nodes.insert(0, node)
+                    node = self._get_parent_node(node.PARENT_ID)
                 else:
-                    parent = self._get_parent_node(node.PARENT_ID)
-                    root = parent
-                    img_nodes.insert(0, parent)
-                    break
+                    ref_node = self._get_reference_node(node.NODE_ID, node.TREE_ID, node.EXTENSION)
+                    if not ref_node.name:
+                        img_nodes.insert(0, node)
+                    node = ref_node
+            elif node.NODE_TYPE == 'REF':
+                img_nodes.insert(0, node)
+                if node.PARENT_ID:
+                    node = self._get_parent_node(node.PARENT_ID)
 
         # Check if root is New SAP IMG.
-        # If it not, return None.
-        if root.NODE_ID != '368DDFAC3AB96CCFE10000009B38F976':
+        # If it is not, return None.
+        root = img_nodes[0]
+
+        if root.NODE_ID not in ('368DDFAC3AB96CCFE10000009B38F976', '61B34417DD1FD311930100A0C9A384CE'):
             return None
 
-        # path = ' → '.join([node.text for node in img_nodes])
-        path = ' → '.join([node.name + ' ' + node.text + '\n' for node in img_nodes])
+        path = ' → '.join([node.text for node in img_nodes])
+        # path = ' → '.join([node.name + ' ' + node.text + '\n' for node in img_nodes])
 
         return path
