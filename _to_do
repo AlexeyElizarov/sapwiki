@@ -1,20 +1,19 @@
-TODO: Add Enterprise Structure entities
 TODO: Add customizing path
-        - def: miltiple similar nodes (SIMG_CFMENUOLQSOQCS, SIMG_CFMENUSAPCOX10)
-        - def: incorrect node texts (/IWFND/DE_ROLE_GW_US, OHASE_RP010) - done
-        - def: path without root (/IWFND/DE_ROLE_GW_US)
         - def: strange paths (OHASE_RP010)
+        - def: /IWFND/DE_ROLE_GW_US - no reference to New IMG
+
 TODO: Add cust. docu
+TODO: customizing objects SHI3 and SHI5
 TODO: Add terms and definitions page
 TODO: Add migration page
-TODO: Roles to authorizations page
+TODO: Add Roles to authorizations page
 TODO: Add classes page
 TODO: Add programs page
 TODO: Add enhancements and badi page
 TODO: Add exception handling
-TODO: Solve buffer exceed error
-TODO: customizing objects SHI3 and SHI5
-TODO: PEP8 attribute names
+FIXME: Solve buffer exceed error
+FIXME: PEP8 attribute names
+TODO: Add Enterprise Structure entities
 
 
 What is Entity:
